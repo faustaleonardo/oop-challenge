@@ -1,0 +1,27 @@
+{
+  "name": "oop-challenge",
+  "version": "1.0.0",
+  "description": "",
+  "main": "01.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "mocha ./tests/*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/faustaleonardo/oop-challenge.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/faustaleonardo/oop-challenge/issues"
+  },
+  "homepage": "https://github.com/faustaleonardo/oop-challenge#readme",
+  "dependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^7.1.0"
+  }
+}
