@@ -1,64 +1,63 @@
 const fs = require('fs');
-const { promisify } = require('util');
+const secret = new WeakMap();
 
-// CONTINUE TOMORROW
 class Log {
   constructor() {
-    this.message = '';
-    this.fileName = 'app.log';
+    secret.set(this, { _fileName: 'app.log' });
   }
-  async info() {
-    this.message = 'INFO: This is an information about something';
-    await this._writeFile();
-    return this.message;
+  info(message) {
+    const newMessage = `INFO: ${message}`;
+    this._writeFile(newMessage);
+    return newMessage;
   }
-  async error() {
-    this.message = "ERROR: We can't divide any numbers by zero.";
-    await this._writeFile();
-    return this.message;
+  error(message) {
+    const newMessage = `ERROR: ${message}`;
+    this._writeFile(newMessage);
+    return newMessage;
   }
-  async notice() {
-    this.message = 'NOTICE: Someone loves your status.';
-    await this._writeFile();
-    return this.message;
+  notice(message) {
+    const newMessage = `NOTICE: ${message}`;
+    this._writeFile(newMessage);
+    return newMessage;
   }
-  async warning() {
-    this.message = 'WARNING: Insufficient funds.';
-    await this._writeFile();
-    return this.message;
+  warning(message) {
+    const newMessage = `WARNING: ${message}`;
+    this._writeFile(newMessage);
+    return newMessage;
   }
-  async debug() {
-    this.message = 'DEBUG: This is debug message.';
-    await this._writeFile();
-    return this.message;
+  debug(message) {
+    const newMessage = `DEBUG: ${message}`;
+    this._writeFile(newMessage);
+    return newMessage;
   }
-  async alert() {
-    this.message = 'ALERT: Achtung! Achtung!';
-    await this._writeFile();
-    return this.message;
+  alert(message) {
+    const newMessage = `ALERT: ${message}`;
+    this._writeFile(newMessage);
+    return newMessage;
   }
-  async critical() {
-    this.message = "CRITICAL: Medic!! We've got critical damages.";
-    await this._writeFile();
-    return this.message;
+  critical(message) {
+    const newMessage = `CRITICAL: ${message}`;
+    this._writeFile(newMessage);
+    return newMessage;
   }
-  async emergency() {
-    this.message =
-      'EMERGENCY: System hung. Contact system administrator immediately!';
-    await this._writeFile();
-    return this.message;
+  emergency(message) {
+    const newMessage = `EMERGENCY: ${message}`;
+    this._writeFile(newMessage);
+    return newMessage;
   }
-  async _writeFile() {
-    const message = `${new Date().toISOString()} ${this.message}\n`;
-    if (!fs.existsSync(`./${this.fileName}`))
-      return await promisify(fs.writeFile)(this.fileName, message);
+  _writeFile(message) {
+    const _fileName = secret.get(this)._fileName;
 
-    const existingMessage = await promisify(fs.readFile)(this.fileName, 'utf8');
-    const content = existingMessage.concat(message);
+    const newMessage = `${new Date().toISOString()} ${message}\n`;
+    if (!fs.existsSync(_fileName)) {
+      return fs.writeFileSync(_fileName, newMessage);
+    }
 
-    return await promisify(fs.writeFile)(this.fileName, content);
+    const existingMessage = fs.readFileSync(`./${_fileName}`, 'utf8');
+    const content = existingMessage.concat(newMessage);
+
+    return fs.writeFileSync(_fileName, content);
   }
 }
 
-const log = new Log();
-log._writeFile();
+module.exports = Log;

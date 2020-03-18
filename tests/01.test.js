@@ -1,9 +1,10 @@
 const chai = require('chai');
 const expect = chai.expect;
 
+const Hash = require('../src/01');
+
 describe('01.js', () => {
   it('should return hash string based on hash algorithm method called', function() {
-    const Hash = require('../src/01');
     const hash = new Hash();
     expect(hash.md5('secret')).to.be.equal('5ebe2294ecd0e0f08eab7690d2a6ee69');
     expect(hash.sha1('secret')).to.be.equal(
